@@ -7,7 +7,6 @@ namespace NPL.SMS.R2S.Training.Main
 {
     class Connect
     {
-        //Connection String
         private const string CONN_STRING = @"Data Source=DESKTOP-PD96SEP\VIRTUAL;Initial Catalog=SMS;Integrated Security=True";
 
         public static SqlConnection GetSqlConnection()
