@@ -24,7 +24,7 @@ namespace NPL.SMS.R2S.Training.Entities
 
         public void Export()
         {
-            Console.WriteLine("CustomerId: {0}   CustomerName: {1}", customerId, customerName);
+            Console.WriteLine("CustomerId: {0}  CustomerName: {1}", customerId, customerName);
         }
     }
 }
