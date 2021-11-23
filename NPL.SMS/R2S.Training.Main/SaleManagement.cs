@@ -10,14 +10,14 @@ namespace NPL.SMS.R2S.Training.Main
     class SaleManagement
     {
         
-        public static void createMenu()
+        public static void CreateMenu()
         {
             Console.WriteLine(
                 "1. Get list customers in the Orders table" +
                 "\n2. Get all orders for a given customerId" +
                 "\n3. Get all lineitem for a given orderId" +
-                "\n4. Get all orders for a given customerId" +
-                "\n5. Get all orders for a given customerId" +
+                "\n4. Compute order total" +
+                "\n5. Add new customer" +
                 "\n6. Get all orders for a given customerId" +
                 "\n7. Get all orders for a given customerId" +
                 "\n8. Get all orders for a given customerId" +
@@ -36,14 +36,19 @@ namespace NPL.SMS.R2S.Training.Main
             const string LIST_CUSTOMERS = "1";
             const string LIST_ORDERS = "2";
             const string LIST_LINEITEM = "3";
+            const string COMPUTE_TOTAL = "4";
+            const string ADD_CUSTOMER = "5";
             const string ADD_ITEM = "9";
             const string EXIT = "11";
 
+
             CustomerDAO CD = new CustomerDAO();
+            LineItemDAO LD = new LineItemDAO();
+            OrderDao OD = new OrderDao();
 
             do
             {
-                createMenu();
+                CreateMenu();
                 option = Console.ReadLine();
 
                 switch (option)
@@ -58,9 +63,9 @@ namespace NPL.SMS.R2S.Training.Main
                             }
                             else
                             {
-                                foreach (Customer customer in list)
+                                foreach (Customer customers in list)
                                 {
-                                    Console.WriteLine(customer);
+                                    Console.WriteLine(customers);
                                 }
 
                             }
@@ -118,6 +123,33 @@ namespace NPL.SMS.R2S.Training.Main
                             Console.WriteLine("Successfully!!");
                         else
                             Console.WriteLine("Failed");
+                        break;
+                    case COMPUTE_TOTAL:
+                        Console.Write("Enter order Id: ");
+                        int orderId_total = int.Parse(Console.ReadLine());
+                        Console.WriteLine(OD.ComputeOrderTotal(orderId_total));
+                        break;
+                    case ADD_CUSTOMER:
+                        Customer customer = new Customer();
+
+                        Console.Write("Enter name: ");
+                        customer.CustomerName = Console.ReadLine();
+
+                        try
+                        {
+                            if (CD.AddCustomer(customer))
+                            {
+                                Console.WriteLine("Successfully");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Failed");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
                 }
             }
