@@ -57,7 +57,7 @@ namespace NPL.SMS.R2S.Training.Main
                             {
                                 foreach (Customer customer in list)
                                 {
-                                    customer.Output();
+                                    Console.WriteLine(customer);
                                 }
 
                             }
@@ -78,7 +78,7 @@ namespace NPL.SMS.R2S.Training.Main
                             {
                                 foreach (Order order in list)
                                 {
-                                    order.Output();
+                                    Console.WriteLine(order);
                                 }
                             }
                         }
