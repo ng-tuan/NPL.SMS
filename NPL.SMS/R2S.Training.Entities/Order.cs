@@ -25,9 +25,9 @@ namespace NPL.SMS.R2S.Training.Entities
         public int CustomerId { get => customerId; set => customerId = value; }
         public int EmployeeId { get => employeeId; set => employeeId = value; }
         public double Total { get => total; set => total = value; }
-        public override string ToString()
+        public void Output()
         {
-            return string.Format("Order ID: {0}, Order time: {1}, Customer ID: {2}, Employee ID: {3}, Total: {4}", OrderId, OrderDate, CustomerId, EmployeeId, Total);
+            Console.WriteLine("Order ID: {0}, Order time: {1}, Customer ID: {2}, Employee ID: {3}, Total: {4}", OrderId, OrderDate, CustomerId, EmployeeId, Total);
         }
     }
 }
