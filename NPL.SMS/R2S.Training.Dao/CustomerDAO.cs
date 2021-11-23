@@ -14,7 +14,7 @@ namespace NPL.SMS.R2S.Training.Dao
 
         private const string ADD_CUSTOMER = "sp_add_customer";
         const string SELECT_ALLCUSTOMERS = "SELECT * FROM Customer WHERE EXISTS(SELECT Orders.customer_id FROM Orders WHERE Orders.customer_id = Customer.customer_id)";
-              
+        const string SELECT_ORDERS_BY_CUSID = "SELECT * FROM Orders WHERE customer_id= @customerId";
         public List<Customer> GetAllCustomers()
         {
             using SqlConnection conn = Connect.GetSqlConnection();
@@ -40,7 +40,35 @@ namespace NPL.SMS.R2S.Training.Dao
         }
         public List<Order> GetAllOrdersByCustomerID(int customerId)
         {
-            throw new NotImplementedException();
+            using SqlConnection conn = Connect.GetSqlConnection();
+
+            conn.Open();
+
+            using SqlCommand cmd = Connect.GetSqlCommand(SELECT_ORDERS_BY_CUSID, conn);
+
+            cmd.Parameters.AddRange(new[]
+            {
+                new SqlParameter("@customerId", customerId)
+            });
+
+            using SqlDataReader dataReader = cmd.ExecuteReader();
+
+            List<Order> list = new List<Order>();
+            while (dataReader.Read())
+            {
+                Order customer = new Order
+                {
+                    OrderId = dataReader.GetInt32(0),
+                    OrderDate = dataReader.GetDateTime(1),
+                    CustomerId = dataReader.GetInt32(2),
+                    EmployeeId = dataReader.GetInt32(3),
+                    Total = dataReader.GetDouble(4)
+                };
+
+                list.Add(customer);
+            }
+
+            return list;
         }
 
         /// <summary>
