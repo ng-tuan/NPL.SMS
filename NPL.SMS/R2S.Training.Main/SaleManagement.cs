@@ -9,62 +9,85 @@ namespace NPL.SMS.R2S.Training.Main
 {
     class SaleManagement
     {
-        private const string LIST_LINEITEM = "3";
-        private const string ADD_ITEM = "9";
-        private static void Menu()
+        
+        public static void createMenu()
         {
-            Console.WriteLine("------------MENU-----------");
-            Console.WriteLine("3.List lint item of Order ID");
-            Console.WriteLine("9.ADD LINE ITEM");
-            Console.WriteLine("11.EXIT");
-            Console.Write("Your choice: ");
+            Console.WriteLine(
+                "1. Get list customers in the Orders table" +
+                "\n2. Get all orders for a given customerId" +
+                "\n3. Get all orders for a given customerId" +
+                "\n4. Get all orders for a given customerId" +
+                "\n5. Get all orders for a given customerId" +
+                "\n6. Get all orders for a given customerId" +
+                "\n7. Get all orders for a given customerId" +
+                "\n8. Get all orders for a given customerId" +
+                "\n9. Get all orders for a given customerId" +
+                "\n10. Get all orders for a given customerId" +
+                "\n11. Exit"
+                );
+            Console.Write("Enter your choice: ");
         }
+        
         static void Main(string[] args)
         {
-            LineItemDAO LD = new LineItemDAO();
+            Console.OutputEncoding = Encoding.UTF8;
+
             string option;
+            const string LIST_CUSTOMERS = "1";
+            const string LIST_ORDERS = "2";
+            const string EXIT = "11";
+
+            CustomerDAO CD = new CustomerDAO();
 
             do
             {
-                Menu();
+                createMenu();
                 option = Console.ReadLine();
+
                 switch (option)
                 {
-                    case LIST_LINEITEM:
-                        Console.Write("Enter order Id: ");
-                        int orderId = int.Parse(Console.ReadLine());
-
-                        try
+                    case LIST_CUSTOMERS:
                         {
-                            if (LineItemDAO.CheckOrderId(orderId))
+                            List<Customer> list = CD.GetAllCustomers();
+
+                            if (list.Count == 0)
                             {
-                                Console.WriteLine("----------LIST LINE ITEM OF ORDER ID-----------");
-                                foreach (LineItem item in LD.GetAllItemByOrderId(orderId))
-                                {
-                                    Console.WriteLine(item);
-                                }
+                                Console.WriteLine("List customer empty!");
                             }
                             else
                             {
-                                Console.WriteLine("This order id not exits");
+                                foreach (Customer customer in list)
+                                {
+                                    Console.WriteLine(customer);
+                                }
+
                             }
                         }
-                        catch (Exception ex)
+                        break;
+                    case LIST_ORDERS:
                         {
-                            Console.WriteLine(ex.Message);
+                            Console.Write("Enter customer id: ");
+                            int customerId = int.Parse(Console.ReadLine());
+
+                            List<Order> list = CD.GetAllOrdersByCustomerID(customerId);
+
+                            if (list.Count == 0)
+                            {
+                                Console.WriteLine("List order empty!");
+                            }
+                            else
+                            {
+                                foreach (Order order in list)
+                                {
+                                    Console.WriteLine(order);
+                                }
+                            }
                         }
                         break;
-                    case ADD_ITEM:
-                        Console.WriteLine("--------ADD LINE ITEM--------");
-                        LineItem lineItem = new LineItem();
-                        lineItem.AddInfor();
-                        if (LD.AddLineItem(lineItem))
-                            Console.WriteLine("Successfully!!");
-                        else
-                            Console.WriteLine("Failed");
-                        break;
+
                 }
-            } while (option != "11");
+            }
+            while (option != EXIT);  
         }
     }
 }

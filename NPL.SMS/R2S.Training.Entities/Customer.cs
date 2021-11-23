@@ -22,9 +22,9 @@ namespace NPL.SMS.R2S.Training.Entities
         public int CustomerId { get => customerId; set => customerId = value; }
         public string CustomerName { get => customerName; set => customerName = value; }
 
-        public void Export()
+        public void Output()
         {
-            Console.WriteLine("CustomerId: {0}   CustomerName: {1}", customerId, customerName);
+            Console.WriteLine("CustomerId: {0}  CustomerName: {1}", customerId, customerName);
         }
     }
 }
