@@ -11,7 +11,10 @@ namespace NPL.SMS.R2S.Training.Dao
 {    
     class CustomerDAO : ICustomerDAO
     {
+
+        private const string ADD_CUSTOMER = "sp_add_customer";
         const string SELECT_ALLCUSTOMERS = "SELECT * FROM Customer WHERE EXISTS(SELECT Orders.customer_id FROM Orders WHERE Orders.customer_id = Customer.customer_id)";
+              
         public List<Customer> GetAllCustomers()
         {
             using SqlConnection conn = Connect.GetSqlConnection();
@@ -35,7 +38,6 @@ namespace NPL.SMS.R2S.Training.Dao
 
             return list;
         }
-
         public List<Order> GetAllOrdersByCustomerID(int customerId)
         {
             throw new NotImplementedException();
