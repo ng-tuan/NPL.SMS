@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Text;
@@ -15,6 +15,8 @@ namespace NPL.SMS.R2S.Training.Dao
         private const string ADD_CUSTOMER = "sp_add_customer";
         const string SELECT_ALLCUSTOMERS = "SELECT * FROM Customer WHERE EXISTS(SELECT Orders.customer_id FROM Orders WHERE Orders.customer_id = Customer.customer_id)";
         const string SELECT_ORDERS_BY_CUSID = "SELECT * FROM Orders WHERE customer_id= @customerId";
+        const string UPDATE_CUSTOMER = "sp_updateCustomer @customer_id, @customer_name";
+        const string DELETE_CUSTOMER = "sp_deleteCustomer @customer_id";
         public List<Customer> GetAllCustomers()
         {
             using SqlConnection conn = Connect.GetSqlConnection();
@@ -103,5 +105,88 @@ namespace NPL.SMS.R2S.Training.Dao
                 return true;
             else return false;           
         }
+
+        /// <summary>
+        /// Delete a customer using Store Procedure
+        /// </summary>
+        /// <param customerID="">Customer information</param>
+        /// <returns>Logic status</returns>
+        public bool DeleteCustomer(int customerId)
+        {
+            if (CheckCUSID(customerId) == true)
+            {
+                // tạo kết nối 
+                using SqlConnection conn = Connect.GetSqlConnection();
+                
+                // mở kết nối
+                conn.Open();
+                
+                //tạo command
+                using SqlCommand cmd = Connect.GetSqlCommand(DELETE_CUSTOMER, conn);
+                
+                //thêm parameter 
+                cmd.Parameters.Add(new SqlParameter("@customer_id", customerId));
+
+                if ((int)cmd.ExecuteScalar() > 0)
+                    return true;
+                return false;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Update a customer using Store Procedure
+        /// </summary>
+        /// <param customer="">Customer information</param>
+        /// <returns>Logic status</returns>
+
+        public bool UpdateCustomer(Customer customer)
+        {
+            if (CheckCUSID(customer.CustomerId) == true)
+            {
+                using SqlConnection conn = Connect.GetSqlConnection();
+
+                // mở kết nối
+                conn.Open();
+                
+                //tạo command
+                using SqlCommand cmd = Connect.GetSqlCommand(UPDATE_CUSTOMER, conn);
+
+                //tạo parameters
+                cmd.Parameters.AddRange(new[]
+                {
+                    new SqlParameter("@customer_id",customer.CustomerId),
+                    new SqlParameter("@customer_name",customer.CustomerName)
+                }
+                );
+
+                if (cmd.ExecuteNonQuery() > 0)
+                    return true;
+                return false;
+            }
+            return false;
+        }
+
+        public static bool CheckCUSID(int customer_id)
+        {
+            //bool check = false;
+            using SqlConnection conn = Connect.GetSqlConnection();
+
+            // mở kết nối
+            conn.Open();
+
+            using SqlCommand cmd = Connect.GetSqlCommand("sp_checkcusID @customer_id", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@customer_id", customer_id));
+
+            if ((int)cmd.ExecuteScalar() > 0)
+                return true;
+            else
+            {
+                Console.WriteLine("ID does not exist!!");
+                return false;
+            }
+        }
     }
 }
+
