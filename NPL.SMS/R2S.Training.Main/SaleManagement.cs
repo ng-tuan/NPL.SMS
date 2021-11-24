@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data.SqlClient;
@@ -18,8 +18,8 @@ namespace NPL.SMS.R2S.Training.Main
                 "\n3. Get all lineitem for a given orderId" +
                 "\n4. Compute order total" +
                 "\n5. Add new customer" +
-                "\n6. Get all orders for a given customerId" +
-                "\n7. Get all orders for a given customerId" +
+                "\n6. Delete a customer for a given customerId" +
+                "\n7. Update a customer for a given customerId" +
                 "\n8. Get all orders for a given customerId" +
                 "\n9. Add line item" +
                 "\n10. Get all orders for a given customerId" +
@@ -38,6 +38,8 @@ namespace NPL.SMS.R2S.Training.Main
             const string LIST_LINEITEM = "3";
             const string COMPUTE_TOTAL = "4";
             const string ADD_CUSTOMER = "5";
+            const string DELETE_CUSTOMER = "6";
+            const string UPDATE_CUSTOMER = "7";
             const string ADD_ITEM = "9";
             const string EXIT = "11";
 
@@ -151,6 +153,31 @@ namespace NPL.SMS.R2S.Training.Main
                             Console.WriteLine(ex.Message);
                         }
                         break;
+                    case DELETE_CUSTOMER:
+                        {
+                            Console.WriteLine("Enter Customer Id: ");
+                            int cusID = int.Parse(Console.ReadLine());
+
+                            if (CD.DeleteCustomer(cusID) == true)
+                            {
+                                Console.WriteLine("Success!!");
+                            }
+                            else Console.WriteLine("Failed!!");
+                            break;
+                        }
+                    case UPDATE_CUSTOMER:
+                        {
+                            Customer cus = new Customer();
+                            Console.WriteLine("Enter Customer Id: ");
+                            cus.CustomerId = int.Parse(Console.ReadLine());
+                            cus.Input();
+                            if (CD.UpdateCustomer(cus) == true)
+                            {
+                                Console.WriteLine("Success!!");
+                            }
+                            else Console.WriteLine("Failed!!");
+                            break;
+                        }
                 }
             }
             while (option != EXIT);  

@@ -21,6 +21,12 @@ namespace NPL.SMS.R2S.Training.Entities
 
         public int CustomerId { get => customerId; set => customerId = value; }
         public string CustomerName { get => customerName; set => customerName = value; }
+        
+        public void Input()
+        {
+            Console.WriteLine("Enter Customer name: ");
+            CustomerName = Console.ReadLine();
+        }
 
         public override string ToString()
         {
