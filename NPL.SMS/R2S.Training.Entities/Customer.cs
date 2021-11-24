@@ -22,9 +22,9 @@ namespace NPL.SMS.R2S.Training.Entities
         public int CustomerId { get => customerId; set => customerId = value; }
         public string CustomerName { get => customerName; set => customerName = value; }
 
-        public void Output()
+        public override string ToString()
         {
-            Console.WriteLine("CustomerId: {0}  CustomerName: {1}", customerId, customerName);
+            return String.Format("CustomerId: {0}  CustomerName: {1}", customerId, customerName);
         }
     }
 }
