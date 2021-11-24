@@ -38,6 +38,8 @@ namespace NPL.SMS.R2S.Training.Dao
 
             return list;
         }
+       
+
         public List<Order> GetAllOrdersByCustomerID(int customerId)
         {
             using SqlConnection conn = Connect.GetSqlConnection();
