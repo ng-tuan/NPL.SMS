@@ -17,7 +17,10 @@ namespace NPL.SMS.R2S.Training.Entities
         }
         public Employee(int employeeId, string employeeName, double salary, int spvrId)
         {
-
+            this.employeeId = employeeId;
+            this.employeeName = employeeName;
+            this.salary = salary;
+            this.spvrId = spvrId;
         }
 
         public int EmployeeId { get => employeeId; set => employeeId = value; }
