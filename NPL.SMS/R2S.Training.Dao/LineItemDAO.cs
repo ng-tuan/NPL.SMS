@@ -13,7 +13,7 @@ namespace NPL.SMS.R2S.Training.Dao
     class LineItemDAO : ILineItemDAO
     {
         const string ADD_LINEITEM = @"INSERT INTO dbo.LineItem (order_id, product_id, quantity, price)
-                                      VALUES(@order_id, @product_id, @quantity, @price)";
+                                    VALUES(@order_id, @product_id, @quantity, @price)";
         const string UPDATE_LINEITEM = @"UPDATE dbo.LineItem SET quantity += @quantity, price += @price 
                                          WHERE order_id = @order_id AND product_id = @product_id";
         const string SELECT_ITEM_BY_ORDERID = "SELECT *FROM LineItem WHERE order_id=@orderId";
@@ -31,11 +31,11 @@ namespace NPL.SMS.R2S.Training.Dao
 
             // The following code uses a SqlCommand based on the SqlConnection
             using SqlCommand cmd = Connect.GetSqlCommand(SELECT_ALL_LINEITEM, conn);
-            using SqlDataReader dr = cmd.ExecuteReader();
+            using SqlDataReader dataReader = cmd.ExecuteReader();
 
-            while (dr.Read())
+            while (dataReader.Read())
             {
-                if (orderId == (int)dr["order_id"])
+                if (orderId == (int)dataReader["order_id"])
                 {
                     check = true;
                     break;
@@ -44,7 +44,7 @@ namespace NPL.SMS.R2S.Training.Dao
             return check;
         }
         //xuất ra 1 danh sách lineItem theo orderId 
-        public List<LineItem> GetAllItemByOrderId(int orderId)
+        public List<LineItem> GetAllItemsByOrderId(int orderId)
         {
             using SqlConnection conn = Connect.GetSqlConnection();
 
@@ -60,20 +60,20 @@ namespace NPL.SMS.R2S.Training.Dao
                 new SqlParameter("@orderId", orderId),
             });
 
-            using SqlDataReader dr = cmd.ExecuteReader();
+            using SqlDataReader dataReader = cmd.ExecuteReader();
 
             List<LineItem> list = new List<LineItem>();
 
-            while (dr.Read())
+            while (dataReader.Read())
             {
-                LineItem line = new LineItem
+                LineItem lineitem = new LineItem
                 {
-                    OrderId = (int)dr["order_id"],
-                    ProductId = (int)dr["product_id"],
-                    Quantity = (int)dr["quantity"],
-                    Price = (double)dr["price"],
+                    OrderId = (int)dataReader["order_id"],
+                    ProductId = (int)dataReader["product_id"],
+                    Quantity = (int)dataReader["quantity"],
+                    Price = (double)dataReader["price"]
                 };
-                list.Add(line);
+                list.Add(lineitem);
             }
             return list;
         }
@@ -89,11 +89,11 @@ namespace NPL.SMS.R2S.Training.Dao
 
             // The following code uses a SqlCommand based on the SqlConnection
             using SqlCommand cmd = Connect.GetSqlCommand(SELECT_ALL_LINEITEM, conn);
-            using SqlDataReader dr = cmd.ExecuteReader();
+            using SqlDataReader dataReader = cmd.ExecuteReader();
 
-            while (dr.Read())
+            while (dataReader.Read())
             {
-                if (lineItem.OrderId == (int)dr["order_id"] && lineItem.ProductId == (int)dr["product_id"])
+                if (lineItem.OrderId == (int)dataReader["order_id"] && lineItem.ProductId == (int)dataReader["product_id"])
                 {
                     check = true;
                     break;

@@ -20,9 +20,9 @@ namespace NPL.SMS.R2S.Training.Main
                 "\n5. Add new customer" +
                 "\n6. Delete a customer for a given customerId" +
                 "\n7. Update a customer for a given customerId" +
-                "\n8. Get all orders for a given customerId" +
-                "\n9. Add line item" +
-                "\n10. Get all orders for a given customerId" +
+                "\n8. Create an order into the database" +
+                "\n9. Create a lineitem into the database" +
+                "\n10. Update an order total" +
                 "\n11. Exit"
                 );
             Console.Write("Enter your choice: ");
@@ -102,7 +102,7 @@ namespace NPL.SMS.R2S.Training.Main
                             if (LineItemDAO.CheckOrderId(orderId))
                             {
                                 Console.WriteLine("----------LIST LINE ITEM OF ORDER ID-----------");
-                                foreach (LineItem item in LD.GetAllItemByOrderId(orderId))
+                                foreach (LineItem item in LD.GetAllItemsByOrderId(orderId))
                                 {
                                     Console.WriteLine(item);
                                 }

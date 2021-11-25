@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data.SqlClient;
 using NPL.SMS.R2S.Training.Main;
+using NPL.SMS.R2S.Training.Entities.R2S.Training.Dao;
+using NPL.SMS.R2S.Training.Entities;
+using System.Data;
 
 namespace NPL.SMS.R2S.Training.Dao
 {
     class OrderDao : IOrderDao
     {        
         private const string COMPUTE_ORDER_TOTAL = "select dbo.fn_compute_order_total(@order_id)";
+        
+
+        
 
         /// <summary>
         /// Compute order total using Function
@@ -48,5 +54,7 @@ namespace NPL.SMS.R2S.Training.Dao
 
             return 0;
         }
+
+             
     }
 }

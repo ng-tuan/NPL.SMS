@@ -50,7 +50,7 @@ namespace NPL.SMS.R2S.Training.Entities
             ProductId = int.Parse(Console.ReadLine());
 
             Console.Write("Input Product Name: ");
-            ProductName = string.Parse(Console.ReadLine());
+            ProductName = string.Format(Console.ReadLine());
 
             Console.Write("Input Product Price: ");
             ProductPrice = double.Parse(Console.ReadLine());

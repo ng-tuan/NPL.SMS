@@ -12,19 +12,26 @@ namespace NPL.SMS.R2S.Training.Dao
     class CustomerDAO : ICustomerDAO
     {
 
-        private const string ADD_CUSTOMER = "sp_add_customer";
         const string SELECT_ALLCUSTOMERS = "SELECT * FROM Customer WHERE EXISTS(SELECT Orders.customer_id FROM Orders WHERE Orders.customer_id = Customer.customer_id)";
         const string SELECT_ORDERS_BY_CUSID = "SELECT * FROM Orders WHERE customer_id= @customerId";
+        const string ADD_CUSTOMER = "sp_add_customer";
         const string UPDATE_CUSTOMER = "sp_updateCustomer @customer_id, @customer_name";
         const string DELETE_CUSTOMER = "sp_deleteCustomer @customer_id";
+
+        /// <summary>
+        /// Get all customer in the Order table
+        /// </summary>
+        /// <returns></returns>
         public List<Customer> GetAllCustomers()
         {
+            // Create a connection
             using SqlConnection conn = Connect.GetSqlConnection();
 
+            // Open a connection
             conn.Open();
 
-            using SqlCommand cmd = Connect.GetSqlCommand(SELECT_ALLCUSTOMERS, conn);
-            using SqlDataReader dataReader = cmd.ExecuteReader();
+            using SqlCommand cmd = Connect.GetSqlCommand(SELECT_ALLCUSTOMERS, conn); // Create a sql command
+            using SqlDataReader dataReader = cmd.ExecuteReader(); // Excute command
 
             List<Customer> list = new List<Customer>();
             while (dataReader.Read())
@@ -41,21 +48,26 @@ namespace NPL.SMS.R2S.Training.Dao
             return list;
         }
        
-
+        /// <summary>
+        /// Get all orders by customerId
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         public List<Order> GetAllOrdersByCustomerID(int customerId)
         {
+            // Create a connection
             using SqlConnection conn = Connect.GetSqlConnection();
 
+            // Open a connection
             conn.Open();
 
+            // Create a sql command
             using SqlCommand cmd = Connect.GetSqlCommand(SELECT_ORDERS_BY_CUSID, conn);
 
-            cmd.Parameters.AddRange(new[]
-            {
-                new SqlParameter("@customerId", customerId)
-            });
+            // Create and add parameter to sql command
+            cmd.Parameters.Add(new SqlParameter("@customerId", customerId));
 
-            using SqlDataReader dataReader = cmd.ExecuteReader();
+            using SqlDataReader dataReader = cmd.ExecuteReader(); // Excute command
 
             List<Order> list = new List<Order>();
             while (dataReader.Read())
@@ -115,18 +127,18 @@ namespace NPL.SMS.R2S.Training.Dao
         /// <returns>Logic status</returns>
         public bool DeleteCustomer(int customerId)
         {
-            if (CheckCUSID(customerId) == true)
+            if (CheckCustomerID(customerId) == true)
             {
-                // tạo kết nối 
+                // Create a connection 
                 using SqlConnection conn = Connect.GetSqlConnection();
-                
-                // mở kết nối
+
+                // Open a connection
                 conn.Open();
-                
-                //tạo command
+
+                // Create a sql command
                 using SqlCommand cmd = Connect.GetSqlCommand(DELETE_CUSTOMER, conn);
-                
-                //thêm parameter 
+
+                // Create and add parameter to sql command 
                 cmd.Parameters.Add(new SqlParameter("@customer_id", customerId));
 
                 if ((int)cmd.ExecuteScalar() > 0)
@@ -141,20 +153,20 @@ namespace NPL.SMS.R2S.Training.Dao
         /// </summary>
         /// <param customer="">Customer information</param>
         /// <returns>Logic status</returns>
-
         public bool UpdateCustomer(Customer customer)
         {
-            if (CheckCUSID(customer.CustomerId) == true)
+            if (CheckCustomerID(customer.CustomerId) == true)
             {
+                // Create a connection
                 using SqlConnection conn = Connect.GetSqlConnection();
 
-                // mở kết nối
+                // Open a connection
                 conn.Open();
-                
-                //tạo command
+
+                // Create a sql command
                 using SqlCommand cmd = Connect.GetSqlCommand(UPDATE_CUSTOMER, conn);
 
-                //tạo parameters
+                // Create and add parameter to sql command
                 cmd.Parameters.AddRange(new[]
                 {
                     new SqlParameter("@customer_id",customer.CustomerId),
@@ -169,16 +181,23 @@ namespace NPL.SMS.R2S.Training.Dao
             return false;
         }
 
-        public static bool CheckCUSID(int customer_id)
+        /// <summary>
+        /// Check customerId
+        /// </summary>
+        /// <param name="customer_id"></param>
+        /// <returns></returns>
+        public static bool CheckCustomerID(int customer_id)
         {
-            //bool check = false;
+            // Create a connection
             using SqlConnection conn = Connect.GetSqlConnection();
 
-            // mở kết nối
+            // Open a connection
             conn.Open();
 
+            // Create a sql command
             using SqlCommand cmd = Connect.GetSqlCommand("sp_checkcusID @customer_id", conn);
 
+            // Create and add parameter to sql command
             cmd.Parameters.Add(new SqlParameter("@customer_id", customer_id));
 
             if ((int)cmd.ExecuteScalar() > 0)
