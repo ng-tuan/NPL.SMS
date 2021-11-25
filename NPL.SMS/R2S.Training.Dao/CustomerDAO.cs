@@ -204,7 +204,7 @@ namespace NPL.SMS.R2S.Training.Dao
                 return true;
             else
             {
-                Console.WriteLine("ID does not exist!!");
+                Console.WriteLine("ID is not exist in database!");
                 return false;
             }
         }

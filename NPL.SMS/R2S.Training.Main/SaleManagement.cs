@@ -31,6 +31,7 @@ namespace NPL.SMS.R2S.Training.Main
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;
 
             string option;
             const string LIST_CUSTOMERS = "1";
@@ -78,17 +79,20 @@ namespace NPL.SMS.R2S.Training.Main
                             Console.Write("Enter customer id: ");
                             int customerId = int.Parse(Console.ReadLine());
 
-                            List<Order> list = CD.GetAllOrdersByCustomerID(customerId);
+                            if(CustomerDAO.CheckCustomerID(customerId))
+                            {
+                                List<Order> list = CD.GetAllOrdersByCustomerID(customerId);
 
-                            if (list.Count == 0)
-                            {
-                                Console.WriteLine("List order empty!");
-                            }
-                            else
-                            {
-                                foreach (Order order in list)
+                                if (list.Count == 0)
                                 {
-                                    Console.WriteLine(order);
+                                    Console.WriteLine("List order empty!");
+                                }
+                                else
+                                {
+                                    foreach (Order order in list)
+                                    {
+                                        Console.WriteLine(order);
+                                    }
                                 }
                             }
                         }
@@ -155,7 +159,7 @@ namespace NPL.SMS.R2S.Training.Main
                         break;
                     case DELETE_CUSTOMER:
                         {
-                            Console.WriteLine("Enter Customer Id: ");
+                            Console.Write("Enter Customer Id: ");
                             int cusID = int.Parse(Console.ReadLine());
 
                             if (CD.DeleteCustomer(cusID) == true)
@@ -168,7 +172,7 @@ namespace NPL.SMS.R2S.Training.Main
                     case UPDATE_CUSTOMER:
                         {
                             Customer cus = new Customer();
-                            Console.WriteLine("Enter Customer Id: ");
+                            Console.Write("Enter Customer Id: ");
                             cus.CustomerId = int.Parse(Console.ReadLine());
                             cus.Input();
                             if (CD.UpdateCustomer(cus) == true)
