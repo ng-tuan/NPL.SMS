@@ -19,8 +19,8 @@ namespace NPL.SMS.R2S.Training.Dao
         const string SELECT_ITEM_BY_ORDERID = "SELECT *FROM LineItem WHERE order_id=@orderId";
         const string SELECT_ALL_LINEITEM = "SELECT *FROM LineItem";
 
-        //Kiểm tra orderId có tồn tại trong bảng LineItem chưa
-        public static bool CheckOrderId(int orderId)
+        //Check orderId of lineitem table
+        public static bool CheckOrderIdofLineItemTable(int orderId)
         {
             bool check = false;
 
@@ -43,7 +43,7 @@ namespace NPL.SMS.R2S.Training.Dao
             }
             return check;
         }
-        //xuất ra 1 danh sách lineItem theo orderId 
+        //List with all lineItem for a given orderId
         public List<LineItem> GetAllItemsByOrderId(int orderId)
         {
             using SqlConnection conn = Connect.GetSqlConnection();
@@ -77,7 +77,7 @@ namespace NPL.SMS.R2S.Training.Dao
             }
             return list;
         }
-        //Kiểm tra orderId và productId đã tồn tại chưa
+        //Check orderId and productId in lineitem table
         public static bool CheckLineItem(LineItem lineItem)
         {
             bool check = false;
@@ -124,7 +124,7 @@ namespace NPL.SMS.R2S.Training.Dao
             else
                 return false;
         }
-        //Thêm 1 lineItem
+        //Create a lineitem into the database
         public bool AddLineItem(LineItem item)
         {
             if (CheckLineItem(item))

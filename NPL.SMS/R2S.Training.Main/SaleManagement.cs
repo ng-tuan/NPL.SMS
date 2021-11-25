@@ -103,7 +103,7 @@ namespace NPL.SMS.R2S.Training.Main
 
                         try
                         {
-                            if (LineItemDAO.CheckOrderId(orderId))
+                            if (LineItemDAO.CheckOrderIdofLineItemTable(orderId))
                             {
                                 Console.WriteLine("----------LIST LINE ITEM OF ORDER ID-----------");
                                 foreach (LineItem item in LD.GetAllItemsByOrderId(orderId))
