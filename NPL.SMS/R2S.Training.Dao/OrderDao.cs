@@ -51,6 +51,40 @@ namespace NPL.SMS.R2S.Training.Dao
 
             return 0;
         }
+        #8 Create Order
+        public bool AddOrder(Order order)
+        {
+            if (CheckOrder(order))
+            {
+                return UpdateOrder(order);    // Check if there is orderId then update
+            }
+            else    // Otherwise, create a new order
+            {
+                // Create a connection
+                using SqlConnection conn = Connect.GetSqlConnection();
+
+                // Open the SqlConnection
+                conn.Open();
+
+                // The following code uses a SqlCommand based on the SqlConnection
+                using SqlCommand cmd = Connect.GetSqlCommand(ADD_ORDER, conn);
+
+                cmd.Parameters.AddRange(new[]
+                {
+                    new SqlParameter("@order_id", orderId),
+                    new SqlParameter("@order_date", orderDate),
+                    new SqlParameter("@order_time", orderTime);
+                });
+            if (cmd.ExecuteNonQuery() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #10 Update Order
         public bool UpdateOrderTotal(int orderId)
             if(CheckOrderId(orderId) ==true)
             {
@@ -71,8 +105,7 @@ namespace NPL.SMS.R2S.Training.Dao
             {
                 Console.WriteLine("The order is not in the database");
                 return false;
-            }
-             
+            }  
     }
 }
 '
