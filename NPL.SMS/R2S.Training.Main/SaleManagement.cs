@@ -182,6 +182,17 @@ namespace NPL.SMS.R2S.Training.Main
                             else Console.WriteLine("Failed!!");
                             break;
                         }
+                    case ADD_ORDER:
+                        {
+                            Console.WriteLine("--------ADD ORDER--------");
+                            Order order = new Order();
+                            Order.AddInfor();
+                            if (OD.AddLineItem(lineItem))
+                                Console.WriteLine("Successfully!!");
+                            else
+                                Console.WriteLine("Failed");
+                            break;
+                        }
                     case UPDATE_ORDERTOTAL:
                         {
                             Order NewOrderId = new Order();
