@@ -51,7 +51,28 @@ namespace NPL.SMS.R2S.Training.Dao
 
             return 0;
         }
-
+        public bool UpdateOrderTotal(int orderId)
+            if(CheckOrderId(orderId) ==true)
+            {
+                using SqlConnection conn = Common.GetSqlConection();
+                conn.Open();
+                
+                using SqlCommand cmd = Common.GetSqlCommand(UPDATE, conn);
+                
+                cmd.Parameters.AddRange(new[]
+                {
+                new SqlParameter("@total",ComputerOrderTotal(orderId)),
+                new SqlParameter("@order_id", orderId)});
+                
+                if(cmd.ExcuteNowQuery() > 0) return true;
+                else return false;
+            }
+            else
+            {
+                Console.WriteLine("Don hang khong co trong co so du lieu");
+                return false;
+            }
              
     }
 }
+'
