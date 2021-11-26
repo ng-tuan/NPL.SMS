@@ -13,7 +13,6 @@ namespace NPL.SMS.R2S.Training.Dao
     {
 
         const string SELECT_ALLCUSTOMERS = "SELECT * FROM Customer WHERE EXISTS(SELECT Orders.customer_id FROM Orders WHERE Orders.customer_id = Customer.customer_id)";
-        const string SELECT_ORDERS_BY_CUSID = "SELECT * FROM Orders WHERE customer_id= @customerId";
         const string ADD_CUSTOMER = "sp_add_customer";
         const string UPDATE_CUSTOMER = "sp_updateCustomer @customer_id, @customer_name";
         const string DELETE_CUSTOMER = "sp_deleteCustomer @customer_id";
@@ -40,45 +39,6 @@ namespace NPL.SMS.R2S.Training.Dao
                 {
                     CustomerId = dataReader.GetInt32(0),
                     CustomerName = dataReader.GetString(1)
-                };
-
-                list.Add(customer);
-            }
-
-            return list;
-        }
-       
-        /// <summary>
-        /// Get all orders by customerId
-        /// </summary>
-        /// <param name="customerId"></param>
-        /// <returns></returns>
-        public List<Order> GetAllOrdersByCustomerID(int customerId)
-        {
-            // Create a connection
-            using SqlConnection conn = Connect.GetSqlConnection();
-
-            // Open a connection
-            conn.Open();
-
-            // Create a sql command
-            using SqlCommand cmd = Connect.GetSqlCommand(SELECT_ORDERS_BY_CUSID, conn);
-
-            // Create and add parameter to sql command
-            cmd.Parameters.Add(new SqlParameter("@customerId", customerId));
-
-            using SqlDataReader dataReader = cmd.ExecuteReader(); // Excute command
-
-            List<Order> list = new List<Order>();
-            while (dataReader.Read())
-            {
-                Order customer = new Order
-                {
-                    OrderId = dataReader.GetInt32(0),
-                    OrderDate = dataReader.GetDateTime(1),
-                    CustomerId = dataReader.GetInt32(2),
-                    EmployeeId = dataReader.GetInt32(3),
-                    Total = dataReader.GetDouble(4)
                 };
 
                 list.Add(customer);

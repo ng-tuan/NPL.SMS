@@ -81,7 +81,7 @@ namespace NPL.SMS.R2S.Training.Main
 
                             if(CustomerDAO.CheckCustomerID(customerId))
                             {
-                                List<Order> list = CD.GetAllOrdersByCustomerID(customerId);
+                                List<Order> list = OD.GetAllOrdersByCustomerID(customerId);
 
                                 if (list.Count == 0)
                                 {
