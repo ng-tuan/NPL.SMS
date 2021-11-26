@@ -182,6 +182,12 @@ namespace NPL.SMS.R2S.Training.Main
                             else Console.WriteLine("Failed!!");
                             break;
                         }
+                    case UPDATE_ORDERTOTAL:
+                        {
+                            Order NewOrderId = new Order();
+                            Console.WritLine("Enter new Order ID: ");
+                            NewOrderId.orderId = int.Parse(Console.ReadLine());
+                        }
                 }
             }
             while (option != EXIT);  
