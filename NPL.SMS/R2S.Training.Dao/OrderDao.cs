@@ -69,7 +69,7 @@ namespace NPL.SMS.R2S.Training.Dao
             }
             else
             {
-                Console.WriteLine("Don hang khong co trong co so du lieu");
+                Console.WriteLine("The order is not in the database");
                 return false;
             }
              
