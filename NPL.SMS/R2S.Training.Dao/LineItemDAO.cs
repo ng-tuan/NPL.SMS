@@ -173,11 +173,11 @@ namespace NPL.SMS.R2S.Training.Dao
 
                 cmd.Parameters.AddRange(new[]
                 {
-                new SqlParameter("@order_id", item.OrderId),
-                new SqlParameter("@product_id", item.ProductId),
-                new SqlParameter("@quantity", item.Quantity),
-                new SqlParameter("@price", item.Price)
-            });
+                    new SqlParameter("@order_id", item.OrderId),
+                    new SqlParameter("@product_id", item.ProductId),
+                    new SqlParameter("@quantity", item.Quantity),
+                    new SqlParameter("@price", item.Price)
+                });
             if (cmd.ExecuteNonQuery() > 0)
                 return true;
             else
