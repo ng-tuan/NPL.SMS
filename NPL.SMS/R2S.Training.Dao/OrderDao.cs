@@ -9,7 +9,7 @@ using System.Data;
 
 namespace NPL.SMS.R2S.Training.Dao
 {
-    class OrderDao : IOrderDao
+    class OrderDAO : IOrderDAO
     {        
         private const string COMPUTE_ORDER_TOTAL = "select dbo.fn_compute_order_total(@order_id)";
         

@@ -19,11 +19,17 @@ namespace NPL.SMS.R2S.Training.Dao
         const string SELECT_ITEM_BY_ORDERID = "SELECT *FROM LineItem WHERE order_id=@orderId";
         const string SELECT_ALL_LINEITEM = "SELECT *FROM LineItem";
 
-        //Check orderId of lineitem table
+        
+        /// <summary>
+        /// Check orderId of lineitem table
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         public static bool CheckOrderIdofLineItemTable(int orderId)
         {
             bool check = false;
 
+            // Create a connection
             using SqlConnection conn = Connect.GetSqlConnection();
 
             // Open the SqlConnection
@@ -43,9 +49,15 @@ namespace NPL.SMS.R2S.Training.Dao
             }
             return check;
         }
-        //List with all lineItem for a given orderId
+        
+        /// <summary>
+        /// List with all lineItem for a given orderId
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         public List<LineItem> GetAllItemsByOrderId(int orderId)
         {
+            // Create a connection
             using SqlConnection conn = Connect.GetSqlConnection();
 
             // Open the SqlConnection
@@ -77,11 +89,17 @@ namespace NPL.SMS.R2S.Training.Dao
             }
             return list;
         }
-        //Check orderId and productId in lineitem table
+        
+        /// <summary>
+        /// Check orderId and productId in lineitem table
+        /// </summary>
+        /// <param name="lineItem"></param>
+        /// <returns></returns>
         public static bool CheckLineItem(LineItem lineItem)
         {
             bool check = false;
 
+            // Create a connection
             using SqlConnection conn = Connect.GetSqlConnection();
 
             // Open the SqlConnection
@@ -101,9 +119,15 @@ namespace NPL.SMS.R2S.Training.Dao
             }
             return check;
         }
-        //Update quantity và price
+        
+        /// <summary>
+        /// Update quantity and price
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool UpdateLineItem(LineItem item)
         {
+            // Create a connection
             using SqlConnection conn = Connect.GetSqlConnection();
 
             // Open the SqlConnection
@@ -124,15 +148,21 @@ namespace NPL.SMS.R2S.Training.Dao
             else
                 return false;
         }
-        //Create a lineitem into the database
+        
+        /// <summary>
+        /// Create a lineitem into the database
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool AddLineItem(LineItem item)
         {
             if (CheckLineItem(item))
             {
-                return UpdateLineItem(item);    //Kiểm tra nếu đã có orderId và productId thì cập nhật
+                return UpdateLineItem(item);    // Check if there is orderId and productId then update
             }
-            else    //Ngược lại sẽ tạo 1 lineItem mới
+            else    // Otherwise, create a new lineitem
             {
+                // Create a connection
                 using SqlConnection conn = Connect.GetSqlConnection();
 
                 // Open the SqlConnection

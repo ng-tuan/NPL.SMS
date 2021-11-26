@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NPL.SMS.R2S.Training.Entities.R2S.Training.Dao
 {
-    interface IOrderDao
+    interface IOrderDAO
     {
         double ComputeOrderTotal(int orderId); // functional 4                                      
         //bool AddOrder(LineItem item);    //function 8

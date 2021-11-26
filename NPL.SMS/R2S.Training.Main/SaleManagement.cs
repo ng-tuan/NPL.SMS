@@ -47,7 +47,7 @@ namespace NPL.SMS.R2S.Training.Main
 
             CustomerDAO CD = new CustomerDAO();
             LineItemDAO LD = new LineItemDAO();
-            OrderDao OD = new OrderDao();
+            OrderDAO OD = new OrderDAO();
 
             do
             {

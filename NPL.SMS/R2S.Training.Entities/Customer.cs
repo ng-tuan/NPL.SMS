@@ -24,7 +24,7 @@ namespace NPL.SMS.R2S.Training.Entities
         
         public void Input()
         {
-            Console.WriteLine("Enter Customer name: ");
+            Console.Write("Enter Customer name: ");
             CustomerName = Console.ReadLine();
         }
 
