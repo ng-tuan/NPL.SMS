@@ -13,6 +13,39 @@ namespace NPL.SMS.R2S.Training.Dao
     {        
         const string COMPUTE_ORDER_TOTAL = "select dbo.fn_compute_order_total(@order_id)";
         const string SELECT_ORDERS_BY_CUSID = "SELECT * FROM Orders WHERE customer_id= @customerId";
+        const string ADD_ORDER = @"INSERT INTO Orders (order_date, customer_id, employee_id, total)
+                                    VALUES (@order_date, @customer_id, @employee_id, @total)";
+        const string SELECT_ALL_ORDER = "SELECT * FROM Orders";
+        const string UPDATE_ORDER_TOTAL = "UPDATE Orders set total= @total where order_id= @order_id"; 
+
+        /// <summary>
+        /// Check orderId
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public static bool CheckOrderId(int orderId)
+        {
+            bool check = false;
+            // Create a connection
+            using SqlConnection conn = Connect.GetSqlConnection();
+
+            // Open a connection
+            conn.Open();
+
+            // Create a sql command
+            using SqlCommand cmd = Connect.GetSqlCommand(SELECT_ALL_ORDER, conn);
+            using SqlDataReader dataReader = cmd.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                if (orderId == (int)dataReader["order_id"])
+                {
+                    check = true;
+                    break;
+                }
+            }
+            return check;
+        }
 
         /// <summary>
         /// Compute order total using Function
@@ -49,7 +82,6 @@ namespace NPL.SMS.R2S.Training.Dao
             {
                 Console.WriteLine(ex.Message);
             }
-
             return 0;
         }
 
@@ -91,5 +123,72 @@ namespace NPL.SMS.R2S.Training.Dao
 
             return list;
         }
+
+        /// <summary>
+        /// Create an order into the database
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public bool AddOrder(Order order)
+        {
+            if(CustomerDAO.CheckCustomerID(order.CustomerId) ==true &&
+                EmployeeDAO.CheckEmployeeID(order.EmployeeId) == true)
+            {
+                // Create a connection
+                using SqlConnection conn = Connect.GetSqlConnection();
+
+                // Open a connection
+                conn.Open();
+
+                // Create a sql command
+                using SqlCommand cmd = Connect.GetSqlCommand(ADD_ORDER, conn);
+
+                cmd.Parameters.AddRange(new[]
+                {
+                    new SqlParameter("@order_date", order.OrderDate),
+                    new SqlParameter("@customer_id", order.CustomerId),
+                    new SqlParameter("@employee_id", order.EmployeeId),
+                    new SqlParameter("@total", order.Total)
+                });
+
+                if (cmd.ExecuteNonQuery() > 0) return true;
+                else return false;
+            }
+            else
+            {
+                Console.WriteLine("CustomerId or EmployeeId invalid!");
+                return false;
+            }
+        }
+
+        public bool UpdateOrderTotal(int orderId)
+        {
+            if (CheckOrderId(orderId) == true)
+            {
+                // Create a connection
+                using SqlConnection conn = Connect.GetSqlConnection();
+
+                // Open a connection
+                conn.Open();
+
+                // Create a sql command
+                using SqlCommand cmd = Connect.GetSqlCommand(UPDATE_ORDER_TOTAL, conn);
+
+                cmd.Parameters.AddRange(new[]
+                {
+                    new SqlParameter("@order_id", orderId),
+                    new SqlParameter("@total", ComputeOrderTotal(orderId))
+                });
+
+                if (cmd.ExecuteNonQuery() > 0) return true;
+                else return false;
+            } 
+            else
+            {
+                Console.WriteLine("Order ID is not exist in database!");
+                return false;
+            }            
+        }
+
     }
 }

@@ -29,6 +29,7 @@ namespace NPL.SMS.R2S.Training.Main
         }
         
         static void Main(string[] args)
+
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.InputEncoding = Encoding.UTF8;
@@ -186,22 +187,21 @@ namespace NPL.SMS.R2S.Training.Main
                         }
                     case ADD_ORDER:
                         {
-                            Console.WriteLine("--------ADD ORDER--------");
                             Order order = new Order();
-                            Order.AddInfor();
-                            if (OD.AddLineItem(lineItem))
-                                Console.WriteLine("Successfully!!");
-                            else
-                                Console.WriteLine("Failed");
+                            order.AddInfor();
+                            if (OD.AddOrder(order) == true)
+                            {
+                                Console.WriteLine("Success!!");
+                            }
+                            else Console.WriteLine("Failed!!");
                             break;
                         }
                     case UPDATE_ORDER:
                         {
-                            Order order = new Order();
-                            Console.Write("Enter Order Id: ");
-                            order.OrderId = int.Parse(Console.ReadLine());
-                            order.Input();
-                            if (OD.UpdateOrder(order) == true)
+                            Console.Write("Enter order Id: ");
+                            int order_id = int.Parse(Console.ReadLine());
+
+                            if (OD.UpdateOrderTotal(order_id) == true)
                             {
                                 Console.WriteLine("Success!!");
                             }
