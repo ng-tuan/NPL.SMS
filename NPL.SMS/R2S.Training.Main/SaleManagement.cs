@@ -41,7 +41,9 @@ namespace NPL.SMS.R2S.Training.Main
             const string ADD_CUSTOMER = "5";
             const string DELETE_CUSTOMER = "6";
             const string UPDATE_CUSTOMER = "7";
+            const string ADD_ORDER = "8";
             const string ADD_ITEM = "9";
+            const string UPDATE_ORDER = "10";
             const string EXIT = "11";
 
 
@@ -176,6 +178,30 @@ namespace NPL.SMS.R2S.Training.Main
                             cus.CustomerId = int.Parse(Console.ReadLine());
                             cus.Input();
                             if (CD.UpdateCustomer(cus) == true)
+                            {
+                                Console.WriteLine("Success!!");
+                            }
+                            else Console.WriteLine("Failed!!");
+                            break;
+                        }
+                    case ADD_ORDER:
+                        {
+                            Console.WriteLine("--------ADD ORDER--------");
+                            Order order = new Order();
+                            Order.AddInfor();
+                            if (OD.AddLineItem(lineItem))
+                                Console.WriteLine("Successfully!!");
+                            else
+                                Console.WriteLine("Failed");
+                            break;
+                        }
+                    case UPDATE_ORDER:
+                        {
+                            Order order = new Order();
+                            Console.Write("Enter Order Id: ");
+                            order.OrderId = int.Parse(Console.ReadLine());
+                            order.Input();
+                            if (OD.UpdateOrder(order) == true)
                             {
                                 Console.WriteLine("Success!!");
                             }
