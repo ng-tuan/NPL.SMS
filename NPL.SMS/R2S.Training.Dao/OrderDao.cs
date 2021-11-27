@@ -11,7 +11,7 @@ namespace NPL.SMS.R2S.Training.Dao
 {
     class OrderDAO : IOrderDAO
     {        
-        private const string COMPUTE_ORDER_TOTAL = "select dbo.fn_compute_order_total(@order_id)";
+        const string COMPUTE_ORDER_TOTAL = "select dbo.fn_compute_order_total(@order_id)";
         const string SELECT_ORDERS_BY_CUSID = "SELECT * FROM Orders WHERE customer_id= @customerId";
 
         /// <summary>
