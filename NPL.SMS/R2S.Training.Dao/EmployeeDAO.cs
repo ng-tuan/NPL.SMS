@@ -23,7 +23,7 @@ namespace NPL.SMS.R2S.Training.Dao
 
             // Open a connection
             conn.Open();
-
+            //
             // Create a sql command
             using SqlCommand cmd = Connect.GetSqlCommand(SELECT, conn);
             using SqlDataReader dataReader = cmd.ExecuteReader();
